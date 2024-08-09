@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="custom.css" rel="stylesheet" />
+  </head>
+  <body
+    class="mr-0 md:mr-36 ml-0 md:ml-36 flex justify-center mt-5 md:mt-10 mb-10 bg-blue-100"
+  >
+    <div id="app" class="container mx-auto p-4">
+      <div
+        class="flex flex-col-reverse md:flex-row justify-between items-center mb-10"
+      >
+        <div class="flex-col text-center md:text-left mt-6 md:mt-0">
+          <h1 class="text-3xl md:text-4xl font-bold mb-4">Invoice Generator</h1>
+          <p class="px-4 md:px-0">
+            Generate invoices in seconds. Accurate, professional, hassle-free.
+          </p>
+        </div>
+        <img src="./logo.png" alt="logo" class="w-72 md:w-84" />
+      </div>
+      <div id="stepper" class="stepper">
+        <div class="step active" data-step="1" id="1">
+          Step 1: Client Details
+        </div>
+        <div class="step" data-step="2" id="2">Step 2: Invoice Details</div>
+        <div class="step" data-step="3" id="3">Step 3: Add Services</div>
+        <div class="step" data-step="4" id="4">Step 4: Review & Generate</div>
+      </div>
+      <div id="form-content" class="mt-4">
+        <!-- Step 1: Client Details -->
+        <div class="step-content active" data-step="1">
+          <div class="mb-4">
+            <label for="company-name" class="block text-gray-700"
+              >Company Name</label
+            >
+            <input
+              type="text"
+              id="company-name"
+              class="w-full px-3 py-2 border"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="client-name" class="block text-gray-700"
+              >Client Name</label
+            >
+            <input
+              type="text"
+              id="client-name"
+              class="w-full px-3 py-2 border"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="client-number" class="block text-gray-700"
+              >Client Number</label
+            >
+            <input
+              type="text"
+              id="client-number"
+              class="w-full px-3 py-2 border"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="client-email" class="block text-gray-700"
+              >Client Email</label
+            >
+            <input
+              type="email"
+              id="client-email"
+              class="w-full px-3 py-2 border"
+            />
+          </div>
+          <button class="btn-next rounded-lg">Next</button>
+        </div>
+        <!-- Step 2: Invoice Details -->
+        <div class="step-content" data-step="2">
+          <form id="invoice-details-form">
+            <div class="mb-4">
+              <label class="block text-gray-700">Invoice Number</label>
+              <input
+                type="text"
+                id="invoice-number"
+                class="w-full px-3 py-2 border"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Invoice Date</label>
+              <input
+                type="date"
+                id="invoice-date"
+                class="w-full px-3 py-2 border"
+              />
+            </div>
+            <button type="button" class="btn-previous rounded-lg">
+              Previous
+            </button>
+            <button type="button" class="btn-next rounded-lg">Next</button>
+          </form>
+        </div>
+        <!-- Step 3: Add Services -->
+        <div class="step-content" data-step="3">
+          <div id="services-container">
+            <div class="service mb-4">
+              <label class="block text-gray-700">Service Name</label>
+              <input
+                type="text"
+                class="service-description w-full px-3 py-2 border mb-4"
+              />
+              <label class="block text-gray-700">Service Price</label>
+              <input
+                type="number"
+                class="service-rate w-full px-3 py-2 border mb-4"
+              />
+              <label class="block text-gray-700">Service Frequency</label>
+              <select class="service-frequency w-full px-3 py-2 border">
+                <option value="One-Time">One-Time</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+          <button id="add-service" class="btn-add rounded-lg">
+            Add Another Service
+          </button>
+          <button class="btn-previous rounded-lg">Previous</button>
+          <button class="btn-next rounded-lg">Next</button>
+        </div>
+        <!-- Step 4: Review & Generate -->
+        <div class="step-content" data-step="4">
+          <h2 class="text-xl font-bold mb-4">Review Invoice Details</h2>
+
+          <div id="review-content" class="mb-4">
+            <div class="review-section">
+              <h3 class="text-lg font-semibold mt-4 mb-2">Client Details:</h3>
+
+              <p>
+                <strong>Company Name:</strong>
+                <span id="review-company-name"></span>
+              </p>
+              <p>
+                <strong>Client Name:</strong>
+                <span id="review-client-name"></span>
+              </p>
+              <p>
+                <strong>Client Number:</strong>
+                <span id="review-client-number"></span>
+              </p>
+              <p>
+                <strong>Client Email:</strong>
+                <span id="review-client-email"></span>
+              </p>
+            </div>
+
+            <div class="review-section">
+              <h3 class="text-lg font-semibold mt-4 mb-2">Invoice Details:</h3>
+              <p>
+                <strong>Invoice Number:</strong>
+                <span id="review-invoice-number"></span>
+              </p>
+              <p>
+                <strong>Invoice Date:</strong>
+                <span id="review-invoice-date"></span>
+              </p>
+            </div>
+
+            <div class="review-section">
+              <h3 class="text-lg font-semibold mt-4 mb-2">Services:</h3>
+              <table class="w-full border-collapse border">
+                <thead>
+                  <tr>
+                    <th class="border p-2">Type of Services</th>
+                    <th class="border p-2">Services Price</th>
+                    <th class="border p-2">Service Frequency</th>
+                    <th class="border p-2">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="review-services">
+                  <!-- Services will be populated here -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="review-section">
+              <h3 class="text-lg font-semibold mt-4 mb-2">Total:</h3>
+              <p>
+                <strong>Total Amount:</strong> Rs.<span
+                  id="review-total"
+                ></span>
+              </p>
+            </div>
+          </div>
+
+          <button type="button" class="btn-previous rounded-lg">
+            Previous
+          </button>
+          <button
+            type="button"
+            id="generate-pdf"
+            class="btn-generate rounded-lg"
+          >
+            Generate PDF
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="main.js"></script>
+    <script src="pdf_generate.js"></script>
+  </body>
+</html>
